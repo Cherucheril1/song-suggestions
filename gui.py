@@ -15,6 +15,8 @@ class MyFirstGUI(object):
         "Enter the name of a Spotify playlist that you like: ",
         "Enter the name of a Spotify playlist that you don't like: ",
         "Enter the name of a Spotify playlist that you want to explore: ",
+        "Enter your Spotify client ID: ",
+        "Enter your Spotify client secret: "
     ]
     def __init__(self, master):
         #Heading
@@ -41,12 +43,24 @@ class MyFirstGUI(object):
         self.label_text4.set(self.LABEL_TEXT[3])
         self.label4 = Label(master, textvariable=self.label_text4)
 
+        #Label 5
+        self.label_text5 = StringVar()
+        self.label_text5.set(self.LABEL_TEXT[4])
+        self.label5 = Label(master, textvariable=self.label_text5)
+
+        #Label 6
+        self.label_text6 = StringVar()
+        self.label_text6.set(self.LABEL_TEXT[5])
+        self.label6 = Label(master, textvariable=self.label_text6)
+
         # Entry
         vcmd = master.register(self.validate) # we have to wrap the command
         self.entry = Entry(master, validate="key", validatecommand=(vcmd, '%P'))
         self.entry2 = Entry(master, validate="key", validatecommand=(vcmd, '%P'))
         self.entry3 = Entry(master, validate="key", validatecommand=(vcmd, '%P'))
         self.entry4 = Entry(master, validate="key", validatecommand=(vcmd, '%P'))
+        self.entry5 = Entry(master, validate="key", validatecommand=(vcmd, '%P'))
+        self.entry6 = Entry(master, validate="key", validatecommand=(vcmd, '%P'))
 
         # Buttons
         self.submit_button = Button(master, text="Submit", command=self.submit)
@@ -67,13 +81,17 @@ class MyFirstGUI(object):
         self.entry3.grid(row=5, column=0, columnspan=3, sticky=W+E)
         self.label4.grid(row=6, column=0, sticky=W)
         self.entry4.grid(row=7, column=0, columnspan=3, sticky=W+E)
+        self.label5.grid(row=8, column=0, sticky=W)
+        self.entry5.grid(row=9, column=0, columnspan=3, sticky=W+E)
+        self.label6.grid(row=10, column=0, sticky=W)
+        self.entry6.grid(row=11, column=0, columnspan=3, sticky=W+E)
 
-        self.submit_button.grid(row = 8, column=0, sticky=W)
-        self.close_button.grid(row = 8, column=1, sticky=W)
+        self.submit_button.grid(row = 12, column=0, sticky=W)
+        self.close_button.grid(row = 12, column=1, sticky=W)
 
-        self.run.grid(row=9, columnspan=2, rowspan=1)
+        self.run.grid(row=13, columnspan=2, rowspan=1)
 
-        self.out.grid(row=10, columnspan=2)
+        self.out.grid(row=14, columnspan=2)
 
 
     def validate(self, new_text):
@@ -89,6 +107,8 @@ class MyFirstGUI(object):
         liked = self.entry2.get()
         disliked= self.entry3.get()
         selection = self.entry4.get()
+        id = self.entry5.get()
+        secret = self.entry6.get()
 
         # Set read/write permissions manually
         scope = 'playlist-read-private'
@@ -96,10 +116,10 @@ class MyFirstGUI(object):
         # API authentication
         self.run.insert(END, "Authenticating Spotify API...\n")
         try:
-            token = util.prompt_for_user_token(username,scope,client_id='50798bca864e4db283f779cf162dab2c',client_secret='5cdc906c1aae4d56bce0bdc5a2dd8f99',redirect_uri='http://localhost/')
+            token = util.prompt_for_user_token(username,scope,client_id=id,client_secret=secret,redirect_uri='http://localhost/')
         except (AttributeError, JSONDecodeError):
             os.remove(f".cache-{username}")
-            token = util.prompt_for_user_token(username,scope,client_id='50798bca864e4db283f779cf162dab2c',client_secret='5cdc906c1aae4d56bce0bdc5a2dd8f99',redirect_uri='http://localhost/')
+            token = util.prompt_for_user_token(username,scope,client_id=id,client_secret=secret,redirect_uri='http://localhost/')
 
         liked_faultfeatures = []
         disliked_faultfeatures = []
