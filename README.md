@@ -7,7 +7,7 @@ Spotipy and Numpy should also be installed. Use:
 pip install Numpy
 pip install spotipy
 
-The First Time:
+The first time:
 The first time you run the code, A webpage will open up and the terminal will ask for a URL. Copy the URL of the webpage and paste it 
 into the terminal and hit enter. Type CTRL and C at the same time into the terminal to close the program. This creates a cache file in the directory of your python file. You can save the file to avoid getting redirected again or you can delete it after you're done.
 
